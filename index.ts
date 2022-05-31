@@ -1,5 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
-import * as typeson from 'https://cdn.skypack.dev/typeson@7.0.2?dts';
+// @ts-ignore: typeson doesn't have types...
+import * as typeson from 'https://cdn.skypack.dev/typeson@7.0.2';
+// @ts-ignore: typeson doesn't have types...
 import { structuredCloningThrowing } from 'https://unpkg.com/typeson-registry@3.0.0/dist/index.js';
 const { Typeson } = 'default' in typeson ? (<any>typeson).default : typeson
 const Structured = new Typeson().register([structuredCloningThrowing]);
@@ -13,7 +15,7 @@ export function stringify(value: any): string {
 }
 
 export function clone(value: any) {
-  return 'structuredClone' in globalThis ? globalThis.structuredClone(value) : parse(stringify(value))
+  return 'structuredClone' in globalThis ? (<any>globalThis).structuredClone(value) : parse(stringify(value))
 }
 
 export function toJSON(value: any) {

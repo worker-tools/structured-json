@@ -24,7 +24,7 @@ await build({
     target: 'ES2019'
   },
   mappings: {
-    "https://cdn.skypack.dev/typeson@7.0.2?dts": {
+    "https://cdn.skypack.dev/typeson@7.0.2": {
       name: "typeson",
       version: "^7.0.2",
     },
