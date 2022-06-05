@@ -12,11 +12,12 @@ import * as Structured from '@worker-tools/structured-json'
 ```
 
 The module exposes these functions:
-- `Structured.parse`
 - `Structured.stringify`
+- `Structured.parse`
 - `Structured.toJSON` 
 - `Structured.fromJSON` 
-- `Structured.clone` — Same as `globalThis.structuredClone`
+
+This modules supports `File`, `Blob`, `FileList`, however use of `stringifyAsync` or `toJSONAsync` is required if your data contains any of these.
 
 <br/>
 
