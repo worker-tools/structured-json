@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-unused-vars
 import 'https://gist.githubusercontent.com/qwtel/b14f0f81e3a96189f7771f83ee113f64/raw/TestRequest.ts'
 import {
   assert,
@@ -25,9 +26,9 @@ test('POJO', () => {
 })
 
 test('Uint8Array', () => {
-  const data = crypto.getRandomValues(new Uint8Array(32))
-  const actual = Structured.fromJSON(Structured.toJSON({ a: data }))
-  assertEquals(actual, { a: data })
+  const buffer = crypto.getRandomValues(new Uint8Array(32))
+  const actual = Structured.fromJSON(Structured.toJSON({ a: buffer }))
+  assertEquals(actual, { a: buffer })
 })
 
 test('Date', () => {
@@ -57,9 +58,9 @@ test('String/Boolean to string/boolean', () => {
 })
 
 test('Blob/File/FileList', async () => {
-  const data = crypto.getRandomValues(new Uint8Array(32))
-  const blob = new Blob([data], { type: 'application/octet-stream' })
-  const file = new File([data], 'foo.bin', { type: 'application/octet-stream'})
+  const buffer = crypto.getRandomValues(new Uint8Array(32))
+  const blob = new Blob([buffer], { type: 'application/octet-stream' })
+  const file = new File([buffer], 'foo.bin', { type: 'application/octet-stream'})
   const expected = { blob, file }
   const actual = Structured.fromJSON(await Structured.toJSONAsync(expected))
   assertEquals(actual.blob.buffer, blob.buffer)
@@ -69,9 +70,18 @@ test('Blob/File/FileList', async () => {
   assertEquals(actual.file.type, file.type)
 })
 
-test('Blob/File/FileList throws async', () => {
-  const data = crypto.getRandomValues(new Uint8Array(32))
-  const expected = { blob: new Blob([data], { type: 'application/octet-stream' }) }
+test('Blob/File/FileList throws when not using async', () => {
+  const buffer = crypto.getRandomValues(new Uint8Array(32))
+  const expected = { blob: new Blob([buffer], { type: 'application/octet-stream' }) }
   assertThrows(() => Structured.toJSON(expected), TypeError)
 })
 
+test('maintaining identity', () => {
+  const buffer = crypto.getRandomValues(new Uint8Array(32)).buffer
+  const expected = {
+    a: new Uint8Array(buffer, 0, 16),
+    b: new Uint8Array(buffer, 8, 16),
+  }
+  const actual = Structured.fromJSON(Structured.toJSON(expected))
+  assertEquals(actual.a.buffer, actual.b.buffer)
+})
