@@ -17,7 +17,7 @@ The module exposes these functions:
 - `Structured.toJSON` 
 - `Structured.fromJSON` 
 
-This modules supports `File`, `Blob`, `FileList`, however use of `stringifyAsync` or `toJSONAsync` is required if your data contains any of these.
+This module supports `File`, `Blob` and `FileList`, however use of `stringifyAsync` or `toJSONAsync` is required if your data contains any of these.
 
 <br/>
 
